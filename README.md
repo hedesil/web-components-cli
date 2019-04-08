@@ -28,28 +28,8 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`webcomp hello [FILE]`](#webcomp-hello-file)
 * [`webcomp help [COMMAND]`](#webcomp-help-command)
-
-## `webcomp hello [FILE]`
-
-describe the command here
-
-```
-USAGE
-  $ webcomp hello [FILE]
-
-OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
-
-EXAMPLE
-  $ webcomp hello
-  hello world from ./src/hello.ts!
-```
-
-_See code: [src\commands\hello.ts](https://github.com/hedesil/web-components-cli/blob/v0.0.0/src\commands\hello.ts)_
+* [`webcomp new-project [APPLICATIONTYPE]`](#webcomp-new-project-applicationtype)
 
 ## `webcomp help [COMMAND]`
 
@@ -67,4 +47,21 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.1.6/src\commands\help.ts)_
+
+## `webcomp new-project [APPLICATIONTYPE]`
+
+Add new project based on Angular 7 and Web Components standard
+
+```
+USAGE
+  $ webcomp new-project [APPLICATIONTYPE]
+
+ARGUMENTS
+  APPLICATIONTYPE  Type of generated archetype
+
+OPTIONS
+  -h, --help  show CLI help
+```
+
+_See code: [src\commands\new-project.ts](https://github.com/hedesil/web-components-cli/blob/v0.0.0/src\commands\new-project.ts)_
 <!-- commandsstop -->
