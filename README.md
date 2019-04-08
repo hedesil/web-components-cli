@@ -1,0 +1,1 @@
+# web-component-archetype-angular7
