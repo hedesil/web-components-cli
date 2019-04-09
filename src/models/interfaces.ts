@@ -3,7 +3,9 @@ export interface ConfigProject {
 }
 
 export interface ConfigWebComponent {
-
+  componentType: string;
+  componentName: string;
+  componentDescription: string;
 }
 
 export interface ConfigAngularApp {
