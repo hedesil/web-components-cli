@@ -29,7 +29,7 @@ USAGE
 # Commands
 <!-- commands -->
 * [`webcomp help [COMMAND]`](#webcomp-help-command)
-* [`webcomp new-project [APPLICATIONTYPE]`](#webcomp-new-project-applicationtype)
+* [`webcomp new-project`](#webcomp-new-project)
 
 ## `webcomp help [COMMAND]`
 
@@ -48,16 +48,13 @@ OPTIONS
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.1.6/src\commands\help.ts)_
 
-## `webcomp new-project [APPLICATIONTYPE]`
+## `webcomp new-project`
 
 Add new project based on Angular 7 and Web Components standard
 
 ```
 USAGE
-  $ webcomp new-project [APPLICATIONTYPE]
-
-ARGUMENTS
-  APPLICATIONTYPE  Type of generated archetype
+  $ webcomp new-project
 
 OPTIONS
   -h, --help  show CLI help
