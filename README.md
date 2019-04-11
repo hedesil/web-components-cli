@@ -19,7 +19,7 @@ $ npm install -g web-components-cli
 $ webcomp COMMAND
 running command...
 $ webcomp (-v|--version|version)
-web-components-cli/0.0.0 win32-x64 node-v10.14.1
+web-components-cli/0.0.1-SNAPSHOT win32-x64 node-v10.14.1
 $ webcomp --help [COMMAND]
 USAGE
   $ webcomp COMMAND
@@ -28,10 +28,25 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`webcomp new-project`](#webcomp-new-project)
 * [`webcomp help [COMMAND]`](#webcomp-help-command)
+* [`webcomp new-project`](#webcomp-new-project)
 
+## `webcomp help [COMMAND]`
 
+display help for webcomp
+
+```
+USAGE
+  $ webcomp help [COMMAND]
+
+ARGUMENTS
+  COMMAND  command to show help for
+
+OPTIONS
+  --all  see all commands in CLI
+```
+
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.1.6/src\commands\help.ts)_
 
 ## `webcomp new-project`
 
@@ -45,6 +60,7 @@ OPTIONS
   -h, --help  show CLI help
 ```
 
+_See code: [src\commands\new-project.ts](https://github.com/hedesil/web-components-cli/blob/v0.0.1-SNAPSHOT/src\commands\new-project.ts)_
 <!-- commandsstop -->
 ## `webcomp help [COMMAND]`
 
