@@ -143,9 +143,7 @@ export default class NewProject extends Command {
       {
         title: 'Sustituyendo nombres genéricos por el nombre del componente...',
         task: () => {
-          execa.stdout('git', ['clone', 'https://github.com/hedesil/webcomponent-angular-archetype'])
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
+          this.log('Hasta aquí hemos llegao!')
         }
       }
     ]).run();
