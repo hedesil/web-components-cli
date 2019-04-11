@@ -15,11 +15,11 @@ Web Component generator for Angular 7 development.
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g web-components-cli
+$ npm install -g web-components-angular-cli
 $ webcomp COMMAND
 running command...
 $ webcomp (-v|--version|version)
-web-components-cli/0.0.1-SNAPSHOT win32-x64 node-v10.14.1
+web-components-angular-cli/0.0.3 win32-x64 node-v10.14.1
 $ webcomp --help [COMMAND]
 USAGE
   $ webcomp COMMAND
@@ -60,7 +60,7 @@ OPTIONS
   -h, --help  show CLI help
 ```
 
-_See code: [src\commands\new-project.ts](https://github.com/hedesil/web-components-cli/blob/v0.0.1-SNAPSHOT/src\commands\new-project.ts)_
+_See code: [src\commands\new-project.ts](https://github.com/hedesil/web-components-cli/blob/v0.0.3/src\commands\new-project.ts)_
 <!-- commandsstop -->
 ## `webcomp help [COMMAND]`
 
