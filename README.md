@@ -1,7 +1,7 @@
 web-components-cli
 ==================
 
-Web Component generator (based on Angular 7 elements)
+Web Component generator for Angular 7 development.
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/web-components-cli.svg)](https://npmjs.org/package/web-components-cli)
@@ -28,9 +28,24 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`webcomp help [COMMAND]`](#webcomp-help-command)
 * [`webcomp new-project`](#webcomp-new-project)
+* [`webcomp help [COMMAND]`](#webcomp-help-command)
 
+
+
+## `webcomp new-project`
+
+Add new project based on Angular 7 and Web Components standard
+
+```
+USAGE
+  $ webcomp new-project
+
+OPTIONS
+  -h, --help  show CLI help
+```
+
+<!-- commandsstop -->
 ## `webcomp help [COMMAND]`
 
 display help for webcomp
@@ -45,20 +60,3 @@ ARGUMENTS
 OPTIONS
   --all  see all commands in CLI
 ```
-
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.1.6/src\commands\help.ts)_
-
-## `webcomp new-project`
-
-Add new project based on Angular 7 and Web Components standard
-
-```
-USAGE
-  $ webcomp new-project
-
-OPTIONS
-  -h, --help  show CLI help
-```
-
-_See code: [src\commands\new-project.ts](https://github.com/hedesil/web-components-cli/blob/v0.0.0/src\commands\new-project.ts)_
-<!-- commandsstop -->

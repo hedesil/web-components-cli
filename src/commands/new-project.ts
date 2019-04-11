@@ -2,7 +2,7 @@ import {Command, flags} from '@oclif/command';
 import chalk from 'chalk';
 import * as inquirer from 'inquirer';
 import {stdout} from 'execa';
-import * as execute from 'execa';
+import * as execa from 'execa';
 import * as Listr from 'listr';
 import {ConfigProject} from "../models/interfaces";
 import {ConfigWebComponent} from "../models/interfaces";
@@ -40,14 +40,14 @@ export default class NewProject extends Command {
     this.log(chalk.bold.yellow('##     ## ##        ##       ##  ####    ##       ##     ## ##     ## ##        ##     ## ##  #### ##       ##  ####    ##          ##'));
     this.log(chalk.bold.yellow('##     ## ##        ##       ##   ###    ##    ## ##     ## ##     ## ##        ##     ## ##   ### ##       ##   ###    ##    ##    ##'));
     this.log(chalk.bold.yellow(' #######  ##        ######## ##    ##     ######   #######  ##     ## ##         #######  ##    ## ######## ##    ##    ##     ######'));
-    this.log(chalk.bold.yellow(''));
-    this.log(chalk.bold.yellow('             ######   ######## ##    ## ######## ########     ###    ########  #######  ########'));
-    this.log(chalk.bold.yellow('            ##    ##  ##       ###   ## ##       ##     ##   ## ##      ##    ##     ## ##     ##'));
-    this.log(chalk.bold.yellow('            ##        ##       ####  ## ##       ##     ##  ##   ##     ##    ##     ## ##     ##'));
-    this.log(chalk.bold.yellow('            ##   #### ######   ## ## ## ######   ########  ##     ##    ##    ##     ## ########'));
-    this.log(chalk.bold.yellow('            ##    ##  ##       ##  #### ##       ##   ##   #########    ##    ##     ## ##   ##'));
-    this.log(chalk.bold.yellow('            ##    ##  ##       ##   ### ##       ##    ##  ##     ##    ##    ##     ## ##    ##'));
-    this.log(chalk.bold.yellow('             ######   ######## ##    ## ######## ##     ## ##     ##    ##     #######  ##     ##'));
+    // this.log(chalk.bold.yellow(''));
+    // this.log(chalk.bold.yellow('             ######   ######## ##    ## ######## ########     ###    ########  #######  ########'));
+    // this.log(chalk.bold.yellow('            ##    ##  ##       ###   ## ##       ##     ##   ## ##      ##    ##     ## ##     ##'));
+    // this.log(chalk.bold.yellow('            ##        ##       ####  ## ##       ##     ##  ##   ##     ##    ##     ## ##     ##'));
+    // this.log(chalk.bold.yellow('            ##   #### ######   ## ## ## ######   ########  ##     ##    ##    ##     ## ########'));
+    // this.log(chalk.bold.yellow('            ##    ##  ##       ##  #### ##       ##   ##   #########    ##    ##     ## ##   ##'));
+    // this.log(chalk.bold.yellow('            ##    ##  ##       ##   ### ##       ##    ##  ##     ##    ##    ##     ## ##    ##'));
+    // this.log(chalk.bold.yellow('             ######   ######## ##    ## ######## ##     ## ##     ##    ##     #######  ##     ##'));
     this.log();
     this.log();
   }
@@ -57,7 +57,7 @@ export default class NewProject extends Command {
       {
         type: 'list',
         name: 'projectType',
-        message: '¿Necesitas una nueva SPA o un componente?',
+        message: '¿Quieres crear una nueva SPA o un nuevo componente?',
         choices: ['SPA', 'Componente'],
         filter: function (val: any) {
           return val.toUpperCase();
@@ -78,9 +78,12 @@ export default class NewProject extends Command {
           }
         }
       )
+      .catch(error => {
+        this.log('Ha ocurrido un error inesperado.');
+      })
   }
 
-  private askComponentType(): void {
+  private askComponentType() {
     const questions = [
       {
         type: 'list',
@@ -108,23 +111,44 @@ export default class NewProject extends Command {
       .then(answer => {
           configWebComponent = answer;
           configWebComponent.componentName = 'webcomponent-' + configWebComponent.componentType.toLowerCase() + '-' + configWebComponent.componentName;
-          this.log(chalk.bold.green('Esta es la información de tu componente, checkea que es correcta antes de continuar:') + chalk.blueBright.bold(configWebComponent.componentName));
+          this.log(chalk.bold.redBright('Esta es la información de tu componente, checkea que es correcta antes de continuar:'));
           this.log(chalk.bold.cyan('Nombre: '));
-          this.log(configWebComponent.componentName);
+          this.log(chalk.blueBright(configWebComponent.componentName));
           this.log(chalk.bold.cyan('Descripción: '));
-          this.log(configWebComponent.componentDescription);
+          this.log(chalk.blueBright(configWebComponent.componentDescription));
           //TODO Añadir una llamada a GitLab aquí para que vaya a comprobar si el repositorio existe.
-          this.generateComponent(configWebComponent.componentName)
+          this.log('');
+          this.log(chalk.bold.red('[ATENCIÓN] ¡Comienza la generación del arquetipo!'));
+          this.generateComponentArchetype();
         }
-      )
+      );
   }
 
   private askAngularAppConfig(): void {
     this.log(chalk.bold.red('Esta funcionalidad se encuentra en desarrollo. Disculpa las molestias.'));
+    this.log('');
     this.askProjectType();
   }
 
-  private generateComponent(componentName: string) {
-    execute.shell('ng new ' + componentName + '--directory=C:\\SoE\\VirtualEnviroment_FrontEnd\\Web_Components_CLI\\web-components-cli\\test');
+  private generateComponentArchetype() {
+    new Listr([
+      {
+        title: 'Clonando repositorio base...',
+        task: () => {
+          execa.stdout('git', ['clone', 'https://github.com/hedesil/webcomponent-angular-archetype'])
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
+        }
+      },
+      {
+        title: 'Sustituyendo nombres genéricos por el nombre del componente...',
+        task: () => {
+          execa.stdout('git', ['clone', 'https://github.com/hedesil/webcomponent-angular-archetype'])
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
+        }
+      }
+    ]).run();
   }
+
 }
