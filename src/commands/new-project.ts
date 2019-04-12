@@ -7,6 +7,9 @@ import * as Listr from 'listr';
 import {ConfigProject} from "../models/interfaces";
 import {ConfigWebComponent} from "../models/interfaces";
 import {config} from "rxjs";
+import {} from "rxjs"
+
+const UpdateRenderer = require('listr-update-renderer');
 
 export let configProject: ConfigProject = {
   projectType: ''
@@ -15,7 +18,10 @@ export let configProject: ConfigProject = {
 export let configWebComponent: ConfigWebComponent = {
   componentType: 'string',
   componentName: '',
-  componentDescription: ''
+  componentDescription: '',
+  compName: '',
+  shortenedNameComp: '',
+  shortenedName: ''
 };
 
 export default class NewProject extends Command {
@@ -84,7 +90,7 @@ export default class NewProject extends Command {
   }
 
   private askComponentType() {
-    const questions = [
+    const questions =  [
       {
         type: 'list',
         name: 'componentType',
@@ -110,16 +116,17 @@ export default class NewProject extends Command {
     inquirer.prompt<ConfigWebComponent>(questions)
       .then(answer => {
           configWebComponent = answer;
-          configWebComponent.componentName = 'webcomponent-' + configWebComponent.componentType.toLowerCase() + '-' + configWebComponent.componentName;
+          configWebComponent.compName = 'webcomponent-' + configWebComponent.componentType.toLowerCase() + '-' + configWebComponent.componentName;
           this.log(chalk.bold.redBright('Esta es la información de tu componente, checkea que es correcta antes de continuar:'));
           this.log(chalk.bold.cyan('Nombre: '));
-          this.log(chalk.blueBright(configWebComponent.componentName));
+          this.log(chalk.blueBright(configWebComponent.compName));
           this.log(chalk.bold.cyan('Descripción: '));
           this.log(chalk.blueBright(configWebComponent.componentDescription));
           //TODO Añadir una llamada a GitLab aquí para que vaya a comprobar si el repositorio existe.
           this.log('');
           this.log(chalk.bold.red('[ATENCIÓN] ¡Comienza la generación del arquetipo!'));
-          this.generateComponentArchetype();
+          this.generateComponentArchetype(configWebComponent);
+          // this.probandoTutorial();
         }
       );
   }
@@ -130,23 +137,94 @@ export default class NewProject extends Command {
     this.askProjectType();
   }
 
-  private generateComponentArchetype() {
-    new Listr([
+  private probandoTutorial() {
+    let tasks = new Listr([
       {
-        title: 'Clonando repositorio base...',
+        title: 'Git',
         task: () => {
-          execa.stdout('git', ['clone', 'https://github.com/hedesil/webcomponent-angular-archetype'])
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
+          return new Listr([
+            {
+              title: 'Checking git status',
+              task: () => execa.stdout('git', ['status', '--porcelain']).then(result => {
+                if (result !== '') {
+                  throw new Error('Unclean working tree. Commit or stash changes first.');
+                }
+              })
+            },
+            {
+              title: 'Checking remote history',
+              task: () => execa.stdout('git', ['rev-list', '--count', '--left-only', '@{u}...HEAD']).then(result => {
+                if (result !== '0') {
+                  throw new Error('Remote history differ. Please pull changes.');
+                }
+              })
+            }
+          ], {concurrent: true});
         }
       },
       {
-        title: 'Sustituyendo nombres genéricos por el nombre del componente...',
-        task: () => {
-          this.log('Hasta aquí hemos llegao!')
-        }
-      }
-    ]).run();
+        title: 'Install package dependencies with npm',
+        enabled: ctx => ctx.yarn === false,
+        task: () => execa('npm', ['install'])
+      },
+      {
+        title: 'Run tests',
+        task: () => execa('npm', ['test'])
+      },
+    ]).run()
   }
 
+  private generateComponentArchetype(configWebComponent: ConfigWebComponent) {
+    new Listr(
+      [
+        {
+          title: 'Clonando repositorio del arquetipo...',
+          task: () => {
+            execa.stdout('git', ['clone', 'https://github.com/hedesil/webcomponent-angular-archetype', '--progress', '--verbose'])
+              .then(res => {
+                  console.log(res);
+                  const replace = require("replace");
+                  replace({
+                    regex: '<compName>',
+                    replacement: configWebComponent.compName,
+                    paths: ['.'],
+                    recursive: true,
+                    silent: true
+                  });
+                  replace({
+                    regex: '<shortenedName>',
+                    replacement: configWebComponent.componentName,
+                    paths: ['.'],
+                    recursive: true,
+                    silent: true
+                  });
+                  replace({
+                    regex: '<shortenedNameComp>',
+                    replacement:  configWebComponent.componentName.charAt(0).toUpperCase() + configWebComponent.componentName.slice(1) + 'Comp',
+                    paths: ['.'],
+                    recursive: true,
+                    silent: true
+                  });
+                  replace({
+                    regex: '<componentDescription>',
+                    replacement: configWebComponent.componentDescription,
+                    paths: ['.'],
+                    recursive: true,
+                    silent: true
+                  });
+
+                }
+              )
+              .catch(err => {
+                this.log('Ha ocurrido un error :( ' + err)
+              })
+          }
+        },
+      ],
+      {
+        concurrent: false,
+        renderer: UpdateRenderer,
+      }
+    ).run();
+  }
 }

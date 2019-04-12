@@ -1,0 +1,11 @@
+const replace = require("replace");
+
+replace({
+  regex: '<compName>',
+  replacement: "adf",
+  paths: ['.']
+});
+
+export module ReplaceSrv {
+
+}

@@ -12,7 +12,9 @@
     "@oclif/config": "^1.12.12",
     "@oclif/dev-cli": "^1.22.0",
     "@oclif/plugin-help": "^2.1.6",
+    "replace": "^1.1.0",
     "listr": "^0.14.3",
+    "listr-update-renderer": "^0.5.0",
     "chalk": "^2.4.2",
     "execa": "^1.0.0",
     "rxjs": "^6.4.0",
@@ -45,7 +47,7 @@
   "keywords": [
     "oclif",
     "webcomp",
-    "webc component"
+    "web component"
   ],
   "license": "MIT",
   "main": "lib/index.js",
@@ -62,7 +64,8 @@
     "postpack": "rimraf oclif.manifest.json",
     "prepack": "rimraf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
     "test": "echo NO TESTS",
-    "version": "oclif-dev readme && git add README.md"
+    "version": "oclif-dev readme && git add README.md",
+    "run-task": "cd bin && run new-project && cd .."
   },
   "types": "lib/index.d.ts"
 }
