@@ -37,14 +37,14 @@ export default class NewProject extends Command {
   }
 
   private printBanner() {
-    this.log(chalk.bold.yellow('     #######  ########  ######## ##    ##    '));
-    this.log(chalk.bold.yellow('    ##     ## ##     ## ##       ###   ##    '));
-    this.log(chalk.bold.yellow('    ##     ## ##     ## ##       ####  ##    '));
-    this.log(chalk.bold.yellow('    ##     ## ########  ######   ## ## ##    '));
-    this.log(chalk.bold.yellow('    ##     ## ##        ##       ##  ####    '));
-    this.log(chalk.bold.yellow('    ##     ## ##        ##       ##   ###    '));
-    this.log(chalk.bold.yellow('     #######  ##        ######## ##    ##    '));
-    this.log(chalk.bold.yellow(''));
+    this.log(chalk.bold.yellow('         #######  ########  ######## ##    ##    '));
+    this.log(chalk.bold.yellow('        ##     ## ##     ## ##       ###   ##    '));
+    this.log(chalk.bold.yellow('        ##     ## ##     ## ##       ####  ##    '));
+    this.log(chalk.bold.yellow('        ##     ## ########  ######   ## ## ##    '));
+    this.log(chalk.bold.yellow('        ##     ## ##        ##       ##  ####    '));
+    this.log(chalk.bold.yellow('        ##     ## ##        ##       ##   ###    '));
+    this.log(chalk.bold.yellow('         #######  ##        ######## ##    ##     '));
+    // this.log(chalk.bold.yellow(''));
     this.log(chalk.bold.yellow(' ######   #######  ##     ## ########   #######  ##    ## ######## ##    ## ########  ######'));
     this.log(chalk.bold.yellow('##    ## ##     ## ###   ### ##     ## ##     ## ###   ## ##       ###   ##    ##    ##    ##'));
     this.log(chalk.bold.yellow('##       ##     ## #### #### ##     ## ##     ## ####  ## ##       ####  ##    ##    ##'));
