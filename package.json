@@ -1,7 +1,7 @@
 {
   "name": "web-components-angular-cli",
   "description": "Web Component generator (based on Angular 7 elements)",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "Mariano Moreno",
   "bin": {
     "webcomp": "./bin/run"
