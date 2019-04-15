@@ -1,15 +1,13 @@
 import {Command, flags} from '@oclif/command';
 import chalk from 'chalk';
 import * as inquirer from 'inquirer';
-import {stdout} from 'execa';
 import * as execa from 'execa';
 import * as Listr from 'listr';
 import {ConfigProject} from "../models/interfaces";
 import {ConfigWebComponent} from "../models/interfaces";
-import {config} from "rxjs";
-import {} from "rxjs"
 
 const UpdateRenderer = require('listr-update-renderer');
+const fs = require('fs');
 
 export let configProject: ConfigProject = {
   projectType: ''
@@ -89,8 +87,8 @@ export default class NewProject extends Command {
       })
   }
 
-  private askComponentType() {
-    const questions =  [
+  private async askComponentType() {
+    const questions = [
       {
         type: 'list',
         name: 'componentType',
@@ -113,7 +111,7 @@ export default class NewProject extends Command {
         suffix: '[ATENCIÓN: Mínimo 140 caracteres]'
       },
     ];
-    inquirer.prompt<ConfigWebComponent>(questions)
+    await inquirer.prompt<ConfigWebComponent>(questions)
       .then(answer => {
           configWebComponent = answer;
           configWebComponent.compName = 'webcomponent-' + configWebComponent.componentType.toLowerCase() + '-' + configWebComponent.componentName;
@@ -122,7 +120,7 @@ export default class NewProject extends Command {
           this.log(chalk.blueBright(configWebComponent.compName));
           this.log(chalk.bold.cyan('Descripción: '));
           this.log(chalk.blueBright(configWebComponent.componentDescription));
-          //TODO Añadir una llamada a GitLab aquí para que vaya a comprobar si el repositorio existe.
+          //TODO: Añadir una llamada a GitLab aquí para que vaya a comprobar si el repositorio existe.
           this.log('');
           this.log(chalk.bold.red('[ATENCIÓN] ¡Comienza la generación del arquetipo!'));
           this.generateComponentArchetype(configWebComponent);
@@ -181,42 +179,15 @@ export default class NewProject extends Command {
           title: 'Clonando repositorio del arquetipo...',
           task: () => {
             execa.stdout('git', ['clone', 'https://github.com/hedesil/webcomponent-angular-archetype', '--progress', '--verbose'])
-              .then(res => {
+              .then(async res => {
                   console.log(res);
-                  const replace = require("replace");
-                  replace({
-                    regex: '<compName>',
-                    replacement: configWebComponent.compName,
-                    paths: ['.'],
-                    recursive: true,
-                    silent: true
-                  });
-                  replace({
-                    regex: '<shortenedName>',
-                    replacement: configWebComponent.componentName,
-                    paths: ['.'],
-                    recursive: true,
-                    silent: true
-                  });
-                  replace({
-                    regex: '<shortenedNameComp>',
-                    replacement:  configWebComponent.componentName.charAt(0).toUpperCase() + configWebComponent.componentName.slice(1) + 'Comp',
-                    paths: ['.'],
-                    recursive: true,
-                    silent: true
-                  });
-                  replace({
-                    regex: '<componentDescription>',
-                    replacement: configWebComponent.componentDescription,
-                    paths: ['.'],
-                    recursive: true,
-                    silent: true
-                  });
-
+                  await this.renameFiles(configWebComponent);
+                  await this.renameInsideFiles(configWebComponent);
+                  await this.renameFolders(configWebComponent);
                 }
               )
               .catch(err => {
-                this.log('Ha ocurrido un error :( ' + err)
+                this.log('Ha ocurrido un error :( ' + err);
               })
           }
         },
@@ -226,5 +197,72 @@ export default class NewProject extends Command {
         renderer: UpdateRenderer,
       }
     ).run();
+  }
+
+  private async renameFiles(configWebComponent: ConfigWebComponent) {
+    fs.rename('./webcomponent-angular-archetype/src/app/shortenedname/shortenedname.component.css', './webcomponent-angular-archetype/src/app/shortenedName/' + configWebComponent.componentName + '.component.css', function (err: any) {
+      if (err) console.log('Error: ' + err);
+      console.log('File Renamed.')
+    });
+
+    fs.rename('./webcomponent-angular-archetype/src/app/shortenedname/shortenedname.component.spec.ts', './webcomponent-angular-archetype/src/app/shortenedName/' + configWebComponent.componentName + '.component.spec.ts', function (err: any) {
+      if (err) console.log('Error: ' + err);
+      console.log('File Renamed.')
+    });
+
+    fs.rename('./webcomponent-angular-archetype/src/app/shortenedname/shortenedname.component.ts', './webcomponent-angular-archetype/src/app/shortenedName/' + configWebComponent.componentName + '.component.ts', function (err: any) {
+      if (err) console.log('Error: ' + err);
+      console.log('File Renamed.')
+    });
+
+    fs.rename('./webcomponent-angular-archetype/src/app/shortenedname/shortenedname.component.html', './webcomponent-angular-archetype/src/app/shortenedName/' + configWebComponent.componentName + '.component.html', function (err: any) {
+      if (err) console.log('Error: ' + err);
+      console.log('File Renamed.')
+    });
+  }
+
+  private async renameFolders(configWebComponent: ConfigWebComponent) {
+
+    fs.renameSync('./webcomponent-angular-archetype/src/app/shortenedname', './webcomponent-angular-archetype/src/app/' + configWebComponent.componentName);
+
+    fs.rename('./webcomponent-angular-archetype', ('./' + configWebComponent.compName), function (err: any) {
+      if (err) {
+        console.log('Error: ' + err)
+
+      }
+      console.log('File Renamed to: ' + configWebComponent.compName)
+    });
+  }
+
+  private async renameInsideFiles(configWebComponent: ConfigWebComponent) {
+    const replace = require("replace");
+    replace({
+      regex: '<compName>',
+      replacement: configWebComponent.compName,
+      paths: ['.'],
+      recursive: true,
+      silent: true
+    });
+    replace({
+      regex: '<shortenedName>',
+      replacement: configWebComponent.componentName,
+      paths: ['.'],
+      recursive: true,
+      silent: true
+    });
+    replace({
+      regex: '<shortenedNameComp>',
+      replacement: configWebComponent.componentName.charAt(0).toUpperCase() + configWebComponent.componentName.slice(1) + 'Component',
+      paths: ['.'],
+      recursive: true,
+      silent: true
+    });
+    replace({
+      regex: '<componentDescription>',
+      replacement: configWebComponent.componentDescription,
+      paths: ['.'],
+      recursive: true,
+      silent: true
+    });
   }
 }
