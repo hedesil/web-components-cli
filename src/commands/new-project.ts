@@ -37,21 +37,21 @@ export default class NewProject extends Command {
   }
 
   private printBanner() {
-    this.log(chalk.bold.yellow(' #######  ########  ######## ##    ##     ######   #######  ##     ## ########   #######  ##    ## ######## ##    ## ########  ######'));
-    this.log(chalk.bold.yellow('##     ## ##     ## ##       ###   ##    ##    ## ##     ## ###   ### ##     ## ##     ## ###   ## ##       ###   ##    ##    ##    ##'));
-    this.log(chalk.bold.yellow('##     ## ##     ## ##       ####  ##    ##       ##     ## #### #### ##     ## ##     ## ####  ## ##       ####  ##    ##    ##'));
-    this.log(chalk.bold.yellow('##     ## ########  ######   ## ## ##    ##       ##     ## ## ### ## ########  ##     ## ## ## ## ######   ## ## ##    ##     ######'));
-    this.log(chalk.bold.yellow('##     ## ##        ##       ##  ####    ##       ##     ## ##     ## ##        ##     ## ##  #### ##       ##  ####    ##          ##'));
-    this.log(chalk.bold.yellow('##     ## ##        ##       ##   ###    ##    ## ##     ## ##     ## ##        ##     ## ##   ### ##       ##   ###    ##    ##    ##'));
-    this.log(chalk.bold.yellow(' #######  ##        ######## ##    ##     ######   #######  ##     ## ##         #######  ##    ## ######## ##    ##    ##     ######'));
-    // this.log(chalk.bold.yellow(''));
-    // this.log(chalk.bold.yellow('             ######   ######## ##    ## ######## ########     ###    ########  #######  ########'));
-    // this.log(chalk.bold.yellow('            ##    ##  ##       ###   ## ##       ##     ##   ## ##      ##    ##     ## ##     ##'));
-    // this.log(chalk.bold.yellow('            ##        ##       ####  ## ##       ##     ##  ##   ##     ##    ##     ## ##     ##'));
-    // this.log(chalk.bold.yellow('            ##   #### ######   ## ## ## ######   ########  ##     ##    ##    ##     ## ########'));
-    // this.log(chalk.bold.yellow('            ##    ##  ##       ##  #### ##       ##   ##   #########    ##    ##     ## ##   ##'));
-    // this.log(chalk.bold.yellow('            ##    ##  ##       ##   ### ##       ##    ##  ##     ##    ##    ##     ## ##    ##'));
-    // this.log(chalk.bold.yellow('             ######   ######## ##    ## ######## ##     ## ##     ##    ##     #######  ##     ##'));
+    this.log(chalk.bold.yellow('     #######  ########  ######## ##    ##    '));
+    this.log(chalk.bold.yellow('    ##     ## ##     ## ##       ###   ##    '));
+    this.log(chalk.bold.yellow('    ##     ## ##     ## ##       ####  ##    '));
+    this.log(chalk.bold.yellow('    ##     ## ########  ######   ## ## ##    '));
+    this.log(chalk.bold.yellow('    ##     ## ##        ##       ##  ####    '));
+    this.log(chalk.bold.yellow('    ##     ## ##        ##       ##   ###    '));
+    this.log(chalk.bold.yellow('     #######  ##        ######## ##    ##    '));
+    this.log(chalk.bold.yellow(''));
+    this.log(chalk.bold.yellow(' ######   #######  ##     ## ########   #######  ##    ## ######## ##    ## ########  ######'));
+    this.log(chalk.bold.yellow('##    ## ##     ## ###   ### ##     ## ##     ## ###   ## ##       ###   ##    ##    ##    ##'));
+    this.log(chalk.bold.yellow('##       ##     ## #### #### ##     ## ##     ## ####  ## ##       ####  ##    ##    ##'));
+    this.log(chalk.bold.yellow('##       ##     ## ## ### ## ########  ##     ## ## ## ## ######   ## ## ##    ##     ######'));
+    this.log(chalk.bold.yellow('##       ##     ## ##     ## ##        ##     ## ##  #### ##       ##  ####    ##          ##'));
+    this.log(chalk.bold.yellow('##    ## ##     ## ##     ## ##        ##     ## ##   ### ##       ##   ###    ##    ##    ##'));
+    this.log(chalk.bold.yellow(' ######   #######  ##     ## ##         #######  ##    ## ######## ##    ##    ##     ######'));
     this.log();
     this.log();
   }
@@ -179,11 +179,11 @@ export default class NewProject extends Command {
           title: 'Clonando repositorio del arquetipo...',
           task: () => {
             execa.stdout('git', ['clone', 'https://github.com/hedesil/webcomponent-angular-archetype', '--progress', '--verbose'])
-              .then(async res => {
+              .then(res => {
                   console.log(res);
-                  await this.renameFiles(configWebComponent);
-                  await this.renameInsideFiles(configWebComponent);
-                  await this.renameFolders(configWebComponent);
+                  this.renameFiles(configWebComponent);
+                  this.renameInsideFiles(configWebComponent);
+                  this.renameFolders(configWebComponent);
                 }
               )
               .catch(err => {
@@ -202,22 +202,23 @@ export default class NewProject extends Command {
   private async renameFiles(configWebComponent: ConfigWebComponent) {
     fs.rename('./webcomponent-angular-archetype/src/app/shortenedname/shortenedname.component.css', './webcomponent-angular-archetype/src/app/shortenedName/' + configWebComponent.componentName + '.component.css', function (err: any) {
       if (err) console.log('Error: ' + err);
-      console.log('File Renamed.')
+      console.log(chalk.bold.greenBright('File Renamed to: ' + configWebComponent.componentName + '.component.css'));
     });
 
     fs.rename('./webcomponent-angular-archetype/src/app/shortenedname/shortenedname.component.spec.ts', './webcomponent-angular-archetype/src/app/shortenedName/' + configWebComponent.componentName + '.component.spec.ts', function (err: any) {
       if (err) console.log('Error: ' + err);
-      console.log('File Renamed.')
+      console.log(chalk.bold.greenBright('File Renamed to: ' + configWebComponent.componentName + '.component.spec.ts'))
+
     });
 
     fs.rename('./webcomponent-angular-archetype/src/app/shortenedname/shortenedname.component.ts', './webcomponent-angular-archetype/src/app/shortenedName/' + configWebComponent.componentName + '.component.ts', function (err: any) {
       if (err) console.log('Error: ' + err);
-      console.log('File Renamed.')
+      console.log(chalk.bold.greenBright('File Renamed to: ' + configWebComponent.componentName + '.component.ts'))
     });
 
     fs.rename('./webcomponent-angular-archetype/src/app/shortenedname/shortenedname.component.html', './webcomponent-angular-archetype/src/app/shortenedName/' + configWebComponent.componentName + '.component.html', function (err: any) {
       if (err) console.log('Error: ' + err);
-      console.log('File Renamed.')
+      console.log(chalk.bold.greenBright('File Renamed to: ' + configWebComponent.componentName + '.component.html'))
     });
   }
 
