@@ -7,7 +7,7 @@ import {ConfigProject} from "../models/interfaces";
 import {ConfigWebComponent} from "../models/interfaces";
 
 const UpdateRenderer = require('listr-update-renderer');
-const fs = require('fs');
+const fs = require('fs-extra');
 
 export let configProject: ConfigProject = {
   projectType: ''
@@ -44,7 +44,7 @@ export default class NewProject extends Command {
     this.log(chalk.bold.yellow('        ##     ## ##        ##       ##  ####    '));
     this.log(chalk.bold.yellow('        ##     ## ##        ##       ##   ###    '));
     this.log(chalk.bold.yellow('         #######  ##        ######## ##    ##     '));
-    // this.log(chalk.bold.yellow(''));
+    this.log(chalk.bold.yellow(''));
     this.log(chalk.bold.yellow(' ######   #######  ##     ## ########   #######  ##    ## ######## ##    ## ########  ######'));
     this.log(chalk.bold.yellow('##    ## ##     ## ###   ### ##     ## ##     ## ###   ## ##       ###   ##    ##    ##    ##'));
     this.log(chalk.bold.yellow('##       ##     ## #### #### ##     ## ##     ## ####  ## ##       ####  ##    ##    ##'));
@@ -61,10 +61,11 @@ export default class NewProject extends Command {
       {
         type: 'list',
         name: 'projectType',
-        message: '¿Quieres crear una nueva SPA o un nuevo componente?',
-        choices: ['SPA', 'Componente'],
+        message: 'Do you want to create a Web Component or an SPA?',
+        choices: ['SPA', 'Web Component'],
         filter: function (val: any) {
-          return val.toUpperCase();
+          let clean = val.replace(/ /g, '');
+          return clean.toUpperCase();
         }
       }
     ];
@@ -73,17 +74,17 @@ export default class NewProject extends Command {
           configProject = answer;
           switch (configProject.projectType) {
             case 'SPA':
-              this.log('Se va a crear un arquetipo de aplicación en Angular 7');
+              this.log('It is going to create an archetype of Angular 7 Single Page Application');
               this.askAngularAppConfig();
               break;
-            case 'COMPONENTE':
-              this.log('Se va a crear un arquetipo de web component basado en Angular 7');
+            case 'WEBCOMPONENT':
+              this.log('It is going to create an archetype of Web Component based on Angular 7');
               this.askComponentType();
           }
         }
       )
       .catch(error => {
-        this.log('Ha ocurrido un error inesperado.');
+        this.log('An error has occurred.');
       })
   }
 
@@ -92,8 +93,8 @@ export default class NewProject extends Command {
       {
         type: 'list',
         name: 'componentType',
-        message: 'Se han definido tres tipos de componentes UI (presentación), API (acceso a datos) y Negocio (funcionalidad completa): ',
-        choices: ['UI', 'API', 'Negocio'],
+        message: 'You must choose between three options: UI (presentation component), API (data access component) or BS (business logic component)',
+        choices: ['UI', 'API', 'BS'],
         filter: function (val: any) {
           return val.toUpperCase();
         }
@@ -101,28 +102,28 @@ export default class NewProject extends Command {
       {
         type: 'input',
         name: 'componentName',
-        message: 'Elige un nombre para tu componente, únicamente una palabra que defina su funcionalidad:',
-        prefix: '[ATENCIÓN]'
+        message: 'Choose a name for your component, just a word that defines its functionality.',
+        prefix: '[ATTENTION]: Forbidden dash-case and camel-case.'
       },
       {
         type: 'input',
         name: 'componentDescription',
-        message: 'Describe con una o más frases la funcionalidad que cubre el componente:',
-        suffix: '[ATENCIÓN: Mínimo 140 caracteres]'
+        message: 'Describe the functionality that the component covers with one or more sentences:',
+        suffix: '[ATTENTION: minimum of 140 characters]'
       },
     ];
     await inquirer.prompt<ConfigWebComponent>(questions)
       .then(answer => {
           configWebComponent = answer;
           configWebComponent.compName = 'webcomponent-' + configWebComponent.componentType.toLowerCase() + '-' + configWebComponent.componentName;
-          this.log(chalk.bold.redBright('Esta es la información de tu componente, checkea que es correcta antes de continuar:'));
-          this.log(chalk.bold.cyan('Nombre: '));
+          this.log(chalk.bold.redBright('This is the information of your component:'));
+          this.log(chalk.bold.cyan('Name: '));
           this.log(chalk.blueBright(configWebComponent.compName));
-          this.log(chalk.bold.cyan('Descripción: '));
+          this.log(chalk.bold.cyan('Description: '));
           this.log(chalk.blueBright(configWebComponent.componentDescription));
           //TODO: Añadir una llamada a GitLab aquí para que vaya a comprobar si el repositorio existe.
           this.log('');
-          this.log(chalk.bold.red('[ATENCIÓN] ¡Comienza la generación del arquetipo!'));
+          this.log(chalk.bold.red('[ATTENTION] The generation of the archetype begins!'));
           this.generateComponentArchetype(configWebComponent);
           // this.probandoTutorial();
         }
@@ -130,7 +131,7 @@ export default class NewProject extends Command {
   }
 
   private askAngularAppConfig(): void {
-    this.log(chalk.bold.red('Esta funcionalidad se encuentra en desarrollo. Disculpa las molestias.'));
+    this.log(chalk.bold.red('This functionality is in development. Sorry for the inconvenience.'));
     this.log('');
     this.askProjectType();
   }

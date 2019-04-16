@@ -4,26 +4,36 @@ web-components-cli
 Web Component generator for Angular 7 development.
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![Version](https://img.shields.io/npm/v/web-components-cli.svg)](https://npmjs.org/package/web-components-cli)
+[![Version](https://img.shields.io/npm/v/web-components-angular-cli.svg)](https://npmjs.org/package/web-components-cli)
 [![Downloads/week](https://img.shields.io/npm/dw/web-components-cli.svg)](https://npmjs.org/package/web-components-cli)
 [![License](https://img.shields.io/npm/l/web-components-cli.svg)](https://github.com/hedesil/web-components-cli/blob/master/package.json)
 
 <!-- toc -->
+* [Installation](#installation)
 * [Usage](#usage)
 * [Commands](#commands)
 <!-- tocstop -->
+
+# Installation
+
+Install the package globally: 
+
+```sh-session
+$ npm install -g web-components-angular-cli
+```
+
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g web-components-angular-cli
-$ webcomp COMMAND
-running command...
+$ webcomp new-project
+<Banner and cli options here>
+
 $ webcomp (-v|--version|version)
-web-components-angular-cli/0.0.3 win32-x64 node-v10.14.1
+web-components-angular-cli/0.0.4-SNAPSHOT win32-x64 node-v10.14.1
+
 $ webcomp --help [COMMAND]
 USAGE
   $ webcomp COMMAND
-...
 ```
 <!-- usagestop -->
 # Commands
@@ -60,7 +70,7 @@ OPTIONS
   -h, --help  show CLI help
 ```
 
-_See code: [src\commands\new-project.ts](https://github.com/hedesil/web-components-cli/blob/v0.0.3/src\commands\new-project.ts)_
+_See code: [src\commands\new-project.ts](https://github.com/hedesil/web-components-cli/blob/v0.0.4-SNAPSHOT/src\commands\new-project.ts)_
 <!-- commandsstop -->
 ## `webcomp help [COMMAND]`
 
