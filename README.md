@@ -3,9 +3,9 @@ web-components-cli
 
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![Version](https://img.shields.io/npm/v/web-components-angular-cli.svg)](https://npmjs.org/package/web-components-cli)
-[![Downloads/week](https://img.shields.io/npm/dw/web-components-cli.svg)](https://npmjs.org/package/web-components-cli)
-[![License](https://img.shields.io/npm/l/web-components-cli.svg)](https://github.com/hedesil/web-components-cli/blob/master/package.json)
+[![Version](https://img.shields.io/npm/v/web-components-angular-cli.svg)](https://npmjs.org/package/web-components-angular-cli)
+[![Downloads/week](https://img.shields.io/npm/dw/web-components-angular-cli.svg)](https://npmjs.org/package/web-components-angular-cli)
+[![License](https://img.shields.io/npm/l/web-components-angular-cli.svg)](https://github.com/hedesil/web-components-angular-cli/blob/master/package.json)
 
 Web Component generator for Angular 7 development. In a few steps you will have a functional web component developed in Angular 7 that you can implement in any web.
 
