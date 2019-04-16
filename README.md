@@ -1,12 +1,13 @@
 web-components-cli
 ==================
 
-Web Component generator for Angular 7 development.
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/web-components-angular-cli.svg)](https://npmjs.org/package/web-components-cli)
 [![Downloads/week](https://img.shields.io/npm/dw/web-components-cli.svg)](https://npmjs.org/package/web-components-cli)
 [![License](https://img.shields.io/npm/l/web-components-cli.svg)](https://github.com/hedesil/web-components-cli/blob/master/package.json)
+
+Web Component generator for Angular 7 development. In a few steps you will have a functional web component developed in Angular 7 that you can implement in any web.
 
 <!-- toc -->
 * [Installation](#installation)
@@ -27,14 +28,9 @@ $ npm install -g web-components-angular-cli
 ```sh-session
 $ webcomp new-project
 <Banner and cli options here>
-
-$ webcomp (-v|--version|version)
-web-components-angular-cli/0.0.4-SNAPSHOT win32-x64 node-v10.14.1
-
-$ webcomp --help [COMMAND]
-USAGE
-  $ webcomp COMMAND
 ```
+When you finish to answer the CLI questions, you can find your new web component in the folder where you ran the command.
+
 <!-- usagestop -->
 # Commands
 <!-- commands -->

@@ -93,7 +93,7 @@ export default class NewProject extends Command {
       {
         type: 'list',
         name: 'componentType',
-        message: 'You must choose between three options: UI (presentation component), API (data access component) or BS (business logic component)',
+        message: 'You must choose one option: UI (presentation component), API (data access component) or BS (business logic component)',
         choices: ['UI', 'API', 'BS'],
         filter: function (val: any) {
           return val.toUpperCase();
@@ -102,14 +102,12 @@ export default class NewProject extends Command {
       {
         type: 'input',
         name: 'componentName',
-        message: 'Choose a name for your component, just a word that defines its functionality.',
-        prefix: '[ATTENTION]: Forbidden dash-case and camel-case.'
+        message: 'Choose a name for your component, just a word that defines its functionality:',
       },
       {
         type: 'input',
         name: 'componentDescription',
         message: 'Describe the functionality that the component covers with one or more sentences:',
-        suffix: '[ATTENTION: minimum of 140 characters]'
       },
     ];
     await inquirer.prompt<ConfigWebComponent>(questions)
@@ -118,9 +116,9 @@ export default class NewProject extends Command {
           configWebComponent.compName = 'webcomponent-' + configWebComponent.componentType.toLowerCase() + '-' + configWebComponent.componentName;
           this.log(chalk.bold.redBright('This is the information of your component:'));
           this.log(chalk.bold.cyan('Name: '));
-          this.log(chalk.blueBright(configWebComponent.compName));
+          this.log(chalk.green(configWebComponent.compName));
           this.log(chalk.bold.cyan('Description: '));
-          this.log(chalk.blueBright(configWebComponent.componentDescription));
+          this.log(chalk.green(configWebComponent.componentDescription));
           //TODO: Añadir una llamada a GitLab aquí para que vaya a comprobar si el repositorio existe.
           this.log('');
           this.log(chalk.bold.red('[ATTENTION] The generation of the archetype begins!'));
@@ -134,43 +132,6 @@ export default class NewProject extends Command {
     this.log(chalk.bold.red('This functionality is in development. Sorry for the inconvenience.'));
     this.log('');
     this.askProjectType();
-  }
-
-  private probandoTutorial() {
-    let tasks = new Listr([
-      {
-        title: 'Git',
-        task: () => {
-          return new Listr([
-            {
-              title: 'Checking git status',
-              task: () => execa.stdout('git', ['status', '--porcelain']).then(result => {
-                if (result !== '') {
-                  throw new Error('Unclean working tree. Commit or stash changes first.');
-                }
-              })
-            },
-            {
-              title: 'Checking remote history',
-              task: () => execa.stdout('git', ['rev-list', '--count', '--left-only', '@{u}...HEAD']).then(result => {
-                if (result !== '0') {
-                  throw new Error('Remote history differ. Please pull changes.');
-                }
-              })
-            }
-          ], {concurrent: true});
-        }
-      },
-      {
-        title: 'Install package dependencies with npm',
-        enabled: ctx => ctx.yarn === false,
-        task: () => execa('npm', ['install'])
-      },
-      {
-        title: 'Run tests',
-        task: () => execa('npm', ['test'])
-      },
-    ]).run()
   }
 
   private generateComponentArchetype(configWebComponent: ConfigWebComponent) {
@@ -232,7 +193,7 @@ export default class NewProject extends Command {
         console.log('Error: ' + err)
 
       }
-      console.log('File Renamed to: ' + configWebComponent.compName)
+      console.log('Directory Renamed to: ' + configWebComponent.compName)
     });
   }
 
