@@ -202,28 +202,28 @@ export default class NewProject extends Command {
     replace({
       regex: '<compName>',
       replacement: configWebComponent.compName,
-      paths: ['.'],
+      paths: ['./webcomponent-angular-archetype'],
       recursive: true,
       silent: true
     });
     replace({
       regex: '<shortenedName>',
       replacement: configWebComponent.componentName,
-      paths: ['.'],
+      paths: ['./webcomponent-angular-archetype'],
       recursive: true,
       silent: true
     });
     replace({
       regex: '<shortenedNameComp>',
       replacement: configWebComponent.componentName.charAt(0).toUpperCase() + configWebComponent.componentName.slice(1) + 'Component',
-      paths: ['.'],
+      paths: ['./webcomponent-angular-archetype'],
       recursive: true,
       silent: true
     });
     replace({
       regex: '<componentDescription>',
       replacement: configWebComponent.componentDescription,
-      paths: ['.'],
+      paths: ['./webcomponent-angular-archetype'],
       recursive: true,
       silent: true
     });
